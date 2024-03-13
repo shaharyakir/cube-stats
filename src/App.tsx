@@ -36,7 +36,11 @@ function App() {
               onClick={() => {
                 setStats({ ...stats, [color]: stats[color] + 1 });
                 setStreak({ last: color, count: streak.last === color ? streak.count + 1 : 1});
-                if (color === '🐦‍⬛') fireworks.start()
+                if (color === '🐦‍⬛') {
+                  fireworks.start()
+                } else {
+                  fireworks.stop()
+                }
               }}
               style={{
                 backgroundColor: "white",
