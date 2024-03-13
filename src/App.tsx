@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { BarChart } from "@mui/x-charts/BarChart";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [stats, setStats] = useState({
+    ["🔴"]: 0,
+    ["🍏"]: 0,
+    ["🔵"]: 0,
+    ["🟡"]: 0,
+    ["🧺"]: 0,
+    ["🐦‍⬛"]: 0,
+  });
+
+  const keys = Object.keys(stats);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ width: '85%', margin: '0 auto' }}>
+      <h1>
+        How many throws?{" "}
+        {Object.values(stats).reduce((prev, curr) => prev + curr, 0)}
+      </h1>
+      <div style={{ display: "flex" }}>
+        {Object.keys(stats).map((color) => (
+          <div key={color}>
+            <button
+              onClick={() => setStats({ ...stats, [color]: stats[color] + 1 })}
+              style={{
+                backgroundColor: "white",
+                borderColor: "gray",
+                fontSize: 30,
+              }}
+            >
+              {color} {stats[color]}
+            </button>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <br/>
+      <br/>
+      <br/>
+      <BarChart
+        series={[
+          { data: keys.map((k) => stats[k]) },
+          // { data: [51, 6, 49, 30] },
+          // { data: [15, 25, 30, 50] },
+          // { data: [60, 50, 15, 25] },
+        ]}
+        height={290}
+        xAxis={[{ data: keys, scaleType: "band" }]}
+        margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
